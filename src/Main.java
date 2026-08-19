@@ -1,7 +1,16 @@
 import com.hdfclife.config.AppConfig;
 import com.hdfclife.factory.PolicyFactory;
+import com.hdfclife.model.Claim;
 import com.hdfclife.model.Policy;
+import com.hdfclife.model.Urgency;
+import com.hdfclife.observer.BranchLetterNotifier;
+import com.hdfclife.observer.ClaimEventPublisher;
+import com.hdfclife.observer.InAppNotifier;
+import com.hdfclife.service.AuditLogger;
+import com.hdfclife.service.ClaimService;
 import com.hdfclife.store.PolicyStore;
+import com.hdfclife.strategy.PremiumCalculator;
+import com.hdfclife.strategy.TermPremiumStrategy;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -35,8 +44,33 @@ void main() {
 //    while (it.hasNext()){
 //        System.out.println(it.next());
 //    }
+
+    AuditLogger auditLogger = new AuditLogger();
     for (Policy policy : policies) {
+        auditLogger.log(policy);
         System.out.println(policy);
     }
+
+    PremiumCalculator premiumCalculatorTerm = new PremiumCalculator(new TermPremiumStrategy());
+    double p1Premium = premiumCalculatorTerm.calculatePremium(p1.getPremium());
+    System.out.println("Premium for p1 " + p1Premium);
+
+    ClaimEventPublisher publisher = new ClaimEventPublisher();
+    publisher.registerClaimObserver(new InAppNotifier());
+    publisher.registerClaimObserver(new BranchLetterNotifier());
+
+    ClaimService claimService = new ClaimService(ps, publisher);
+
+    Claim highClaim = new Claim.ClaimBuilder("HDFC-LIFE-1001", 25000, Urgency.HIGH)
+                            .hospitalName("Apollo Hospital")
+                            .remark("Hospitalisation")
+                            .build();
+
+    auditLogger.log(highClaim);
+
+    claimService.fileClaim(highClaim);
+    claimService.updateStatus(highClaim, "APPROVED");
+
+    auditLogger.logToFile();
 
 }

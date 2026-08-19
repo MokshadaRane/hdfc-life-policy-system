@@ -8,7 +8,7 @@ package com.hdfclife.strategy;
          this.strategy = strategy;
      }
 
-     public int calculatePremium(int premium){
+     public double calculatePremium(double premium){
          return strategy.calculatePremium(premium);
      }
  }

@@ -1,4 +1,7 @@
 package com.hdfclife.observer;
 
-public class ClaimObserver {
+import com.hdfclife.model.Claim;
+
+public interface ClaimObserver {
+    void onClaimUpdate(Claim claim);
 }

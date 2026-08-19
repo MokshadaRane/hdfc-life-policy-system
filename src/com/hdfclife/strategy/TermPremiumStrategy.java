@@ -2,7 +2,7 @@ package com.hdfclife.strategy;
 
 public class TermPremiumStrategy implements PremiumStrategy{
     @Override
-    public int calculatePremium(int premium) {
+    public double calculatePremium(double premium) {
         return (premium * 100) / 100;
     }
 }

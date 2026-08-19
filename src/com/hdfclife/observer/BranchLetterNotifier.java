@@ -1,4 +1,10 @@
 package com.hdfclife.observer;
 
-public class BranchLetterNotifier {
+import com.hdfclife.model.Claim;
+
+public class BranchLetterNotifier implements ClaimObserver{
+    @Override
+    public void onClaimUpdate(Claim claim) {
+        System.out.println("BranchLetterNotifier: Claim " + claim.getPolicyNo() + " status is updated to " + claim.getStatus());
+    }
 }
