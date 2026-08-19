@@ -17,7 +17,7 @@ public class ClaimEventPublisher {
     }
 
     public void notifyClaimObserver(Claim claim){
-        System.out.println("Claim status Updated successfully");
+        System.out.println("Claim status Updated successfully for Policy: " + claim.getPolicyNo());
         for(ClaimObserver c : claimObservers){
             c.onClaimUpdate(claim);
         }

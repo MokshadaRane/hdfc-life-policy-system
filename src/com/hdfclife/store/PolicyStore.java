@@ -4,6 +4,7 @@ import com.hdfclife.exception.PolicyNotFoundException;
 import com.hdfclife.model.Claim;
 import com.hdfclife.model.Policy;
 
+import java.security.PublicKey;
 import java.util.*;
 
 public class PolicyStore {
@@ -30,6 +31,14 @@ public class PolicyStore {
 
     public List<Policy> getAllPolicies(){
         return allPolicies;
+    }
+
+    public Set<String> getUniqueCustomers(){
+        return customerName;
+    }
+
+    public TreeMap<String, Policy> getSortedPolicies(){
+        return policyTree;
     }
 
     public Policy findPolicy(String policyNo){

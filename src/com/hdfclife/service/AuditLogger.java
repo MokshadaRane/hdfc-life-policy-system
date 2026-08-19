@@ -25,7 +25,7 @@ public class AuditLogger implements AutoCloseable{
     }
 
     public void log(Claim claim){
-        String s = "Claim: " + claim.getPolicyNo() + " | " + claim.getClaimAmount()+ " | " + claim.getStatus()+ " | " + Instant.now().toString();
+        String s = "Claim Filed: " + claim.getPolicyNo() + " | " + claim.getClaimAmount()+ " | " + claim.getStatus()+ " | " + Instant.now().toString();
         audits.add(s);
     }
 
